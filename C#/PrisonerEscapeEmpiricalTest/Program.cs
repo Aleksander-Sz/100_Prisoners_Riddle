@@ -1,13 +1,28 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using PrisonerEscapeEmpiricalTest;
-const int testCount = 1000000;
-Console.WriteLine("Prisoner escape test\n\n");
+int testCount;
+Console.Write("100 Prisoners Riddle\n\nInput the number of tries: ");
+String? numberString = Console.ReadLine();
+try
+{
+    testCount = Int32.Parse(numberString);
+}
+catch
+{
+    Console.WriteLine("The value needs to be a number.\n");
+    return;
+}
+if(testCount<1)
+{
+    Console.WriteLine("The value needs to be a number above 0.\n");
+    return;
+}
 BoxRoom room = new BoxRoom();
 SingleTest singleTest = new SingleTest(room);
 int successCount = 0;
 int test;
-int loadInterval = testCount / 75;
-Console.SetCursorPosition(0, 5);
+int loadInterval = Math.Max(testCount / 75, 1);
+Console.SetCursorPosition(0, 4);
 Console.Write("[                                                                            ]");
 for(int i = 0; i < testCount; i++)
 {
@@ -23,18 +38,18 @@ for(int i = 0; i < testCount; i++)
     //Thread.Sleep(500);
     if (i % loadInterval == 0)
     {
-        Console.SetCursorPosition(i / loadInterval + 1, 5);
+        Console.SetCursorPosition(i / loadInterval + 1, 4);
         Console.ForegroundColor = ConsoleColor.Red;
         Console.Write("*");
         if (i == 0)
             continue;
         Console.ForegroundColor = ConsoleColor.Green;
-        Console.SetCursorPosition(i / loadInterval, 5);
+        Console.SetCursorPosition(i / loadInterval, 4);
         Console.Write("*");
     }
 }
 Console.ForegroundColor = ConsoleColor.White;
 double probability = (double)successCount / (double)testCount;
 //Console.Clear();
-Console.SetCursorPosition(0, 10);
-Console.Write("\nProbability of escaping the prison: " + probability.ToString() + "\n");
+Console.SetCursorPosition(0, 6);
+Console.Write("Probability of escaping the prison: " + probability.ToString() + "\n");
